@@ -1,0 +1,2 @@
+class Neighbourhood < ApplicationRecord
+end
