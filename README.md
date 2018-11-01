@@ -16,13 +16,15 @@ Use `bundle info [gemname]` to see where a bundled gem is installed.
 * bin/rails: spring inserted
 ```
 
+### Your first Rails model
+
 Scaffold your first model and its corresponding controller and routes:
 ```
 bin/rails generate scaffold Neighbourhood name:string num_businesses:integer home_price:decimal
 ```
 
-Rails will create a database migration, a model, tests for the model, new routes, a controller
-a controller for the model, and tests for the controller.
+Rails will create a database migration, a model file for Neighbourhood, tests for the model, 
+new routes for neighbourhoods, a neighbourhoods controller, and tests for the controller.
 ```
       invoke  active_record
       create    db/migrate/20181101224205_create_neighbourhoods.rb
@@ -66,4 +68,50 @@ Rails will create the Neighbourhoods table in the database.
 -- create_table(:neighbourhoods)
    -> 0.0023s
 == 20181101224205 CreateNeighbourhoods: migrated (0.0024s) ====================
+```
+
+### Putting data into the database
+
+Rails has a console to interact with the models in your app:
+```
+bin/rails console
+```
+
+Looking at our Neighbourhood model, its table contains no data (yet):
+```
+Loading development environment (Rails 5.2.1)
+2.3.7 :001 > Neighbourhood.count
+   (1.1ms)  SELECT COUNT(*) FROM "neighbourhoods"
+ => 0
+```
+
+Let's add our first neighbourhood!
+```
+2.3.7 :002 > Neighbourhood.create(name: "West Humber-Clairville", num_businesses: 2463, home_price: 317508)
+```
+
+```
+   (0.1ms)  begin transaction
+  Neighbourhood Create (0.8ms)  INSERT INTO "neighbourhoods" ("name", "num_businesses", "home_price", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "West Humber-Clairville"], ["num_businesses", 2463], ["home_price", 317508.0], ["created_at", "2018-11-01 23:05:38.953750"], ["updated_at", "2018-11-01 23:05:38.953750"]]
+   (1.4ms)  commit transaction
+ => #<Neighbourhood id: 1, name: "West Humber-Clairville", num_businesses: 2463, home_price: #<BigDecimal:7fa998bf24f0,'0.317508E6',9(27)>, created_at: "2018-11-01 23:05:38", updated_at: "2018-11-01 23:05:38">
+```
+
+And let's add a second neighbourhood for good measure:
+```
+2.3.7 :003 > Neighbourhood.create(name: "Mount Olive-Silverstone-Jamestown", num_businesses: 271, home_price: 251119)
+```
+
+Now our table has two neighbourhoods!
+```
+2.3.7 :004 > Neighbourhood.all
+```
+
+```
+Neighbourhood Load (0.3ms)  SELECT  "neighbourhoods".* FROM "neighbourhoods" LIMIT ?  [["LIMIT", 11]]
+ => #<ActiveRecord::Relation [#<Neighbourhood id: 1, name: "West Humber-Clairville", num_businesses: 2463, home_price: #<BigDecimal:7fa998b713f0,'0.317508E6',9(27)>, created_at: "2018-11-01 23:05:38", updated_at: "2018-11-01 23:05:38">, #<Neighbourhood id: 2, name: "Mount Olive-Silverstone-Jamestown", num_businesses: 271, home_price: #<BigDecimal:7fa998b701d0,'0.251119E6',9(27)>, created_at: "2018-11-01 23:09:13", updated_at: "2018-11-01 23:09:13">]>
+```
+
+```
+2.3.7 :005 > exit
 ```
