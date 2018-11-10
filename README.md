@@ -1,4 +1,4 @@
-# README
+# Starting a Rails 5 API
 
 ## Get started!
 
@@ -126,4 +126,77 @@ bin/rails routes
                           PATCH  /neighbourhoods/:id(.:format)                 neighbourhoods#update
                           PUT    /neighbourhoods/:id(.:format)                 neighbourhoods#update
                           DELETE /neighbourhoods/:id(.:format)                 neighbourhoods#destroy
+```
+
+To see a listing of all our neighbourhoods, we can send an HTTP GET request to 
+the `/neighbourhoods` URI in our app.
+
+But first, we need to start up our server:
+```
+bin/rails server
+```
+
+```
+=> Booting Puma
+=> Rails 5.2.1 application starting in development
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.12.0 (ruby 2.3.7-p456), codename: Llamas in Pajamas
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://0.0.0.0:3000
+Use Ctrl-C to stop
+```
+
+Our Rails server is now running on port 3000 in our local machine. Let's visit the neigbourhoods#index
+controller action our browser by navigating to http://localhost:3000/neighbourhoods.
+
+We can see our two neighbourhoods' data in JSON format!
+```json
+[
+  {
+    "id":1,
+    "name":"West Humber-Clairville",
+    "num_businesses":2463,
+    "home_price":"317508.0",
+    "created_at":"2018-11-01T23:05:38.953Z",
+    "updated_at":"2018-11-01T23:05:38.953Z"
+  },
+  {
+    "id":2,
+    "name":"Mount Olive-Silverstone-Jamestown",
+    "num_businesses":271,
+    "home_price":"251119.0",
+    "created_at":"2018-11-01T23:09:13.291Z",
+    "updated_at":"2018-11-01T23:09:13.291Z"
+  }
+]
+```
+
+In the Rails server logs, we can see that the browser sent a GET request to the "/neighbourhoods" route:
+```
+Started GET "/neighbourhoods" for 127.0.0.1 at 2018-11-10 09:52:55 -0800
+```
+
+The request went to the `#index` method in our NeighbourhoodsController. The `#index` method retrieved all
+the neighbourhoods from our database:
+```
+Processing by NeighbourhoodsController#index as HTML
+  Neighbourhood Load (0.3ms)  SELECT "neighbourhoods".* FROM "neighbourhoods"
+  ↳ app/controllers/neighbourhoods_controller.rb:8
+```
+
+And then the router returned the data payload in a 200 OK response back to the browser:
+```
+Completed 200 OK in 49ms (Views: 37.4ms | ActiveRecord: 1.2ms)
+```
+
+Congratulations! You have created and accessed your first API endpoint in Rails! 🎉
+
+To exit the Rails server, press Ctrl-C.
+```
+- Gracefully stopping, waiting for requests to finish
+=== puma shutdown: 2018-11-10 10:09:59 -0800 ===
+- Goodbye!
+Exiting
 ```
