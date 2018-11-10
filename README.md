@@ -151,7 +151,7 @@ Use Ctrl-C to stop
 Our Rails server is now running on port 3000 in our local machine. Let's visit the neigbourhoods#index
 controller action our browser by navigating to http://localhost:3000/neighbourhoods.
 
-We can see our two neighbourhoods' data in JSON format!
+We can see our two neighbourhoods' data in [JSON] format!
 ```json
 [
   {
@@ -172,6 +172,8 @@ We can see our two neighbourhoods' data in JSON format!
   }
 ]
 ```
+
+### What's Rails doing?
 
 In the Rails server logs, we can see that the browser sent a GET request to the "/neighbourhoods" route:
 ```
@@ -200,3 +202,5 @@ To exit the Rails server, press Ctrl-C.
 - Goodbye!
 Exiting
 ```
+
+* [JSON]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
