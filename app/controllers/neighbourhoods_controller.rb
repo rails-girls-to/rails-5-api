@@ -17,6 +17,10 @@ class NeighbourhoodsController < ApplicationController
       @neighbourhoods = @neighbourhoods.order(params[:ranked_by].to_sym => :desc)
     end
 
+    if params[:near].present?
+      @neighbourhoods = Location.nearest_neighbourhood(params[:near])
+    end
+
     render json: @neighbourhoods
   end
 
