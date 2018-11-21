@@ -5,6 +5,22 @@ class NeighbourhoodsController < ApplicationController
   def index
     @neighbourhoods = Neighbourhood.all
 
+    if params[:max_home_price].present?
+      @neighbourhoods = @neighbourhoods.where('home_price <= :max_home_price', max_home_price: params[:max_home_price])
+    end
+
+    if params[:min_home_price].present?
+      @neighbourhoods = @neighbourhoods.where('home_price >= :min_home_price', min_home_price: params[:min_home_price])
+    end
+
+    if params[:ranked_by].present?
+      @neighbourhoods = @neighbourhoods.order(params[:ranked_by].to_sym => :desc)
+    end
+
+    if params[:near].present?
+      @neighbourhoods = Location.nearest_neighbourhood(params[:near])
+    end
+
     render json: @neighbourhoods
   end
 
@@ -46,6 +62,6 @@ class NeighbourhoodsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def neighbourhood_params
-      params.require(:neighbourhood).permit(:name, :num_businesses, :home_price)
+      params.require(:neighbourhood).permit(:name, :num_businesses, :home_price, :num_child_care)
     end
 end
