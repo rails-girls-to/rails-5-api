@@ -4,7 +4,7 @@ class NeighbourhoodsController < ApplicationController
   # GET /neighbourhoods
   def index
     @neighbourhoods = Neighbourhood.all
-
+    puts params
     if params[:max_home_price].present?
       @neighbourhoods = @neighbourhoods.where('home_price <= :max_home_price', max_home_price: params[:max_home_price])
     end
